@@ -1,0 +1,17 @@
+# Smart Parking Management System — Requirements
+# Run:  pip install -r requirements.txt
+# Start: python app.py
+
+# Core ML / CV
+ultralytics>=8.0.0
+opencv-python>=4.8.0
+easyocr>=1.7.0
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Image processing
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# Web backend
+flask>=3.0.0
