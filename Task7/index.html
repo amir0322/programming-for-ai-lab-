@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App - Real-time Weather Information</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-cloud-sun"></i> Weather App</h1>
+                <p>Get real-time weather information for any location</p>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="tab-btn active" data-tab="current">
+                <i class="fas fa-thermometer-half"></i> Current Weather
+            </button>
+            <button class="tab-btn" data-tab="coordinates">
+                <i class="fas fa-map-marker-alt"></i> By Coordinates
+            </button>
+            <button class="tab-btn" data-tab="forecast">
+                <i class="fas fa-calendar-alt"></i> 5-Day Forecast
+            </button>
+        </nav>
+
+        <!-- Current Weather Tab -->
+        <div class="tab-content active" id="current">
+            <div class="search-section">
+                <div class="search-container">
+                    <input type="text" id="cityInput" placeholder="Enter city name (e.g., London, New York)">
+                    <select id="unitsSelect">
+                        <option value="metric">Celsius (°C)</option>
+                        <option value="imperial">Fahrenheit (°F)</option>
+                        <option value="kelvin">Kelvin (K)</option>
+                    </select>
+                    <button id="searchBtn">
+                        <i class="fas fa-search"></i> Get Weather
+                    </button>
+                </div>
+                <div class="quick-cities">
+                    <span>Quick cities:</span>
+                    <button class="quick-city-btn" data-city="London">London</button>
+                    <button class="quick-city-btn" data-city="New York">New York</button>
+                    <button class="quick-city-btn" data-city="Tokyo">Tokyo</button>
+                    <button class="quick-city-btn" data-city="Paris">Paris</button>
+                    <button class="quick-city-btn" data-city="Sydney">Sydney</button>
+                </div>
+            </div>
+            
+            <div class="weather-display" id="weatherDisplay">
+                <div class="welcome-message">
+                    <i class="fas fa-sun"></i>
+                    <h3>Welcome to Weather App</h3>
+                    <p>Enter a city name above to get started!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coordinates Tab -->
+        <div class="tab-content" id="coordinates">
+            <div class="search-section">
+                <div class="coordinates-container">
+                    <div class="coord-input-group">
+                        <label for="latInput">Latitude:</label>
+                        <input type="number" id="latInput" placeholder="e.g., 51.5074" step="any">
+                    </div>
+                    <div class="coord-input-group">
+                        <label for="lonInput">Longitude:</label>
+                        <input type="number" id="lonInput" placeholder="e.g., -0.1278" step="any">
+                    </div>
+                    <select id="coordUnitsSelect">
+                        <option value="metric">Celsius (°C)</option>
+                        <option value="imperial">Fahrenheit (°F)</option>
+                        <option value="kelvin">Kelvin (K)</option>
+                    </select>
+                    <button id="coordSearchBtn">
+                        <i class="fas fa-crosshairs"></i> Get Weather
+                    </button>
+                </div>
+                <div class="quick-coords">
+                    <span>Quick locations:</span>
+                    <button class="quick-coord-btn" data-lat="51.5074" data-lon="-0.1278">London</button>
+                    <button class="quick-coord-btn" data-lat="40.7128" data-lon="-74.0060">New York</button>
+                    <button class="quick-coord-btn" data-lat="35.6762" data-lon="139.6503">Tokyo</button>
+                    <button class="quick-coord-btn" data-lat="48.8566" data-lon="2.3522">Paris</button>
+                </div>
+            </div>
+            
+            <div class="weather-display" id="coordWeatherDisplay">
+                <div class="welcome-message">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Weather by Coordinates</h3>
+                    <p>Enter latitude and longitude to get weather data!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forecast Tab -->
+        <div class="tab-content" id="forecast">
+            <div class="search-section">
+                <div class="search-container">
+                    <input type="text" id="forecastCityInput" placeholder="Enter city name for 5-day forecast">
+                    <select id="forecastUnitsSelect">
+                        <option value="metric">Celsius (°C)</option>
+                        <option value="imperial">Fahrenheit (°F)</option>
+                        <option value="kelvin">Kelvin (K)</option>
+                    </select>
+                    <button id="forecastSearchBtn">
+                        <i class="fas fa-calendar-alt"></i> Get Forecast
+                    </button>
+                </div>
+            </div>
+            
+            <div class="forecast-display" id="forecastDisplay">
+                <div class="welcome-message">
+                    <i class="fas fa-calendar-week"></i>
+                    <h3>5-Day Weather Forecast</h3>
+                    <p>Enter a city name to get the weather forecast!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Loading weather data...</p>
+        </div>
+
+        <!-- Error Display -->
+        <div class="error-display" id="errorDisplay">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>Oops! Something went wrong</h3>
+            <p id="errorMessage">Unable to fetch weather data. Please try again.</p>
+            <button id="retryBtn">Try Again</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Weather App. Powered by OpenWeatherMap API.</p>
+            <div class="footer-links">
+                <a href="#" onclick="showApiInfo()">API Info</a>
+                <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- API Info Modal -->
+    <div class="modal" id="apiModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-code"></i> API Information</h3>
+                <button class="close-btn" onclick="closeApiInfo()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>Available Endpoints:</h4>
+                <div class="api-endpoint">
+                    <strong>Current Weather:</strong>
+                    <code>GET /api/weather/current?city=London&units=metric</code>
+                </div>
+                <div class="api-endpoint">
+                    <strong>Weather by Coordinates:</strong>
+                    <code>GET /api/weather/coordinates?lat=51.5074&lon=-0.1278&units=metric</code>
+                </div>
+                <div class="api-endpoint">
+                    <strong>5-Day Forecast:</strong>
+                    <code>GET /api/weather/forecast?city=Paris&units=metric</code>
+                </div>
+                <div class="api-endpoint">
+                    <strong>Health Check:</strong>
+                    <code>GET /api/health</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="static/js/weather.js"></script>
+</body>
+</html>
